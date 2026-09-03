@@ -67,3 +67,4 @@ Las relaciones **N:N** se representan mediante las entidades intermedias:
 
 * **CONSULTA_DIAGNOSTICO**, para relacionar las consultas con sus diagnósticos.
 * **CONSULTA_TRATAMIENTO**, para relacionar las consultas con los tratamientos.
+* ![Diagrama Entidad-Relación](../diagrama.png)
