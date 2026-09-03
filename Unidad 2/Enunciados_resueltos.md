@@ -1,18 +1,18 @@
 # Unidad II — Ejercicios Prácticos
 
-> **Tema:** Mapeo Objeto-Relacional en SQL  
-> **Caso de referencia:** Sistema de Biblioteca UAGRM  
-> **Archivo de referencia:** `01_herencia_mapeo.sql`
+**Tema:** Mapeo Objeto-Relacional en SQL
+**Caso de referencia:** Sistema de Biblioteca UAGRM
+**Archivo de referencia:** `01_herencia_mapeo.sql`
 
 ---
 
-# Ejercicio 1 — Identificación de clases y atributos
+## Ejercicio 1 — Identificación de clases y atributos
 
 Para cada dominio se identifican las principales clases, sus atributos, tipos de datos, restricciones y claves primarias.
 
-## a) Sistema de reservas de un hotel
+### a) Sistema de reservas de un hotel
 
-
+```text
 ┌──────────────────────────────────────┐
 │                HOTEL                 │
 ├──────────────────────────────────────┤
@@ -33,6 +33,7 @@ Para cada dominio se identifican las principales clases, sus atributos, tipos de
 │ + precio: DECIMAL(10,2) NOT NULL     │
 │ + id_hotel: INTEGER <<FK>>           │
 └──────────────────────────────────────┘
+
 ┌──────────────────────────────────────┐
 │               HUESPED                │
 ├──────────────────────────────────────┤
@@ -42,6 +43,7 @@ Para cada dominio se identifican las principales clases, sus atributos, tipos de
 │ + telefono: VARCHAR(20)              │
 │ + email: VARCHAR(100)                │
 └──────────────────────────────────────┘
+
 ┌──────────────────────────────────────┐
 │               RESERVA                │
 ├──────────────────────────────────────┤
@@ -52,12 +54,19 @@ Para cada dominio se identifican las principales clases, sus atributos, tipos de
 │ + ci_huesped: VARCHAR(15) <<FK>>     │
 │ + id_habitacion: INTEGER <<FK>>      │
 └──────────────────────────────────────┘
+```
 
 **Relaciones**
-HUESPED (1) ─────────── (N) RESERVA
-HABITACION (1) ──────── (N) RESERVA
-HOTEL (1) ───────────── (N) HABITACION
-## b) Plataforma de streaming de música
+
+```text
+HUESPED   (1) ─────────── (N) RESERVA
+HABITACION(1) ─────────── (N) RESERVA
+HOTEL     (1) ─────────── (N) HABITACION
+```
+
+### b) Plataforma de streaming de música
+
+```text
 ┌──────────────────────────────────────┐
 │               USUARIO                │
 ├──────────────────────────────────────┤
@@ -66,6 +75,7 @@ HOTEL (1) ───────────── (N) HABITACION
 │ + email: VARCHAR(100) UNIQUE         │
 │ + fecha_registro: DATE               │
 └──────────────────────────────────────┘
+
 ┌──────────────────────────────────────┐
 │               CANCION                │
 ├──────────────────────────────────────┤
@@ -76,6 +86,7 @@ HOTEL (1) ───────────── (N) HABITACION
 │ + anio: INTEGER                      │
 │ + id_artista: INTEGER <<FK>>         │
 └──────────────────────────────────────┘
+
 ┌──────────────────────────────────────┐
 │               ARTISTA                │
 ├──────────────────────────────────────┤
@@ -83,6 +94,7 @@ HOTEL (1) ───────────── (N) HABITACION
 │ + nombre: VARCHAR(150) NOT NULL      │
 │ + pais: VARCHAR(50)                  │
 └──────────────────────────────────────┘
+
 ┌──────────────────────────────────────┐
 │             REPRODUCCION             │
 ├──────────────────────────────────────┤
@@ -91,20 +103,29 @@ HOTEL (1) ───────────── (N) HABITACION
 │ + id_usuario: INTEGER <<FK>>         │
 │ + id_cancion: INTEGER <<FK>>         │
 └──────────────────────────────────────┘
+```
+
 **Relaciones**
+
+```text
 ARTISTA (1) ────────── (N) CANCION
 USUARIO (1) ────────── (N) REPRODUCCION
-CANCION (1) ─────────── (N) REPRODUCCION
-## c) Sistema de gestión de una aerolínea
+CANCION (1) ────────── (N) REPRODUCCION
+```
+
+### c) Sistema de gestión de una aerolínea
+
+```text
 ┌──────────────────────────────────────┐
 │                VUELO                 │
 ├──────────────────────────────────────┤
 │ + id_vuelo: INTEGER <<PK>>           │
 │ + numero: VARCHAR(20) UNIQUE         │
 │ + origen: VARCHAR(100) NOT NULL      │
-│ + destino: VARCHAR(100) NOT NULL    │
+│ + destino: VARCHAR(100) NOT NULL     │
 │ + fecha_hora: DATETIME NOT NULL      │
 └──────────────────────────────────────┘
+
 ┌──────────────────────────────────────┐
 │              PASAJERO                │
 ├──────────────────────────────────────┤
@@ -114,6 +135,7 @@ CANCION (1) ─────────── (N) REPRODUCCION
 │ + telefono: VARCHAR(20)              │
 │ + email: VARCHAR(100)                │
 └──────────────────────────────────────┘
+
 ┌──────────────────────────────────────┐
 │               ASIENTO                │
 ├──────────────────────────────────────┤
@@ -123,6 +145,7 @@ CANCION (1) ─────────── (N) REPRODUCCION
 │ + estado: VARCHAR(20) NOT NULL       │
 │ + id_vuelo: INTEGER <<FK>>           │
 └──────────────────────────────────────┘
+
 ┌──────────────────────────────────────┐
 │               RESERVA                │
 ├──────────────────────────────────────┤
@@ -133,109 +156,155 @@ CANCION (1) ─────────── (N) REPRODUCCION
 │ + id_vuelo: INTEGER <<FK>>           │
 │ + id_asiento: INTEGER <<FK>>         │
 └──────────────────────────────────────┘
+```
+
 **Relaciones**
-VUELO (1) ──────────── (N) ASIENTO
-VUELO (1) ──────────── (N) RESERVA
-PASAJERO (1) ───────── (N) RESERVA
-# Ejercicio 2 — Tipos de atributos
-| Atributo                | Contexto   | Clasificación | Justificación                                            |
-| ----------------------- | ---------- | ------------- | -------------------------------------------------------- |
-| `nombre_completo`       | PERSONA    | Compuesto     | Puede dividirse en nombre y apellido.                    |
-| `edad`                  | PERSONA    | Derivado      | Se obtiene a partir de la fecha de nacimiento.           |
-| `dirección`             | CLIENTE    | Compuesto     | Está formada por calle, ciudad y código postal.          |
-| `teléfonos`             | EMPLEADO   | Multivaluado  | Un empleado puede tener varios teléfonos.                |
-| `precio_con_iva`        | PRODUCTO   | Derivado      | Se calcula a partir del precio base y el IVA.            |
-| `calificacion_promedio` | ESTUDIANTE | Derivado      | Se obtiene calculando el promedio de sus calificaciones. |
-| `nombre`                | PRODUCTO   | Simple        | Representa un único valor.                               |
-| `coordenadas_gps`       | SUCURSAL   | Compuesto     | Está formada por latitud y longitud.                     |
 
-# Ejercicio 3 — Cardinalidades
-##a) PAÍS — CAPITAL
+```text
+VUELO    (1) ──────── (N) ASIENTO
+VUELO    (1) ──────── (N) RESERVA
+PASAJERO (1) ──────── (N) RESERVA
+```
 
-Cardinalidad: 1:1
+---
+
+## Ejercicio 2 — Tipos de atributos
+
+| Atributo                 | Contexto   | Clasificación | Justificación                                             |
+|--------------------------|------------|----------------|------------------------------------------------------------|
+| `nombre_completo`        | PERSONA    | Compuesto      | Puede dividirse en nombre y apellido.                       |
+| `edad`                   | PERSONA    | Derivado       | Se obtiene a partir de la fecha de nacimiento.              |
+| `dirección`              | CLIENTE    | Compuesto      | Está formada por calle, ciudad y código postal.             |
+| `teléfonos`              | EMPLEADO   | Multivaluado   | Un empleado puede tener varios teléfonos.                   |
+| `precio_con_iva`         | PRODUCTO   | Derivado       | Se calcula a partir del precio base y el IVA.               |
+| `calificacion_promedio`  | ESTUDIANTE | Derivado       | Se obtiene calculando el promedio de sus calificaciones.    |
+| `nombre`                 | PRODUCTO   | Simple         | Representa un único valor.                                  |
+| `coordenadas_gps`        | SUCURSAL   | Compuesto      | Está formada por latitud y longitud.                        |
+
+---
+
+## Ejercicio 3 — Cardinalidades
+
+### a) PAÍS — CAPITAL
+
+**Cardinalidad:** 1:1
 
 Un país tiene una capital y una capital pertenece a un país.
 
+```text
 PAÍS (1) ───────── (1) CAPITAL
-##b) MÉDICO — PACIENTE
+```
 
-Cardinalidad: N:M
+### b) MÉDICO — PACIENTE
+
+**Cardinalidad:** N:M
 
 Un médico puede atender a muchos pacientes y un paciente puede ser atendido por varios médicos.
 
+```text
 MÉDICO (N) ───────── (M) PACIENTE
+```
 
-En un modelo relacional se necesitaría una tabla intermedia, por ejemplo ATENCION.
+En un modelo relacional se necesitaría una tabla intermedia, por ejemplo `ATENCION`.
 
-##c) AUTOR — LIBRO
+### c) AUTOR — LIBRO
 
-Cardinalidad: N:M
+**Cardinalidad:** N:M
 
 Un autor puede escribir varios libros y un libro puede tener varios autores.
 
+```text
 AUTOR (N) ───────── (M) LIBRO
+```
 
 Se puede resolver mediante:
 
+```text
 AUTOR ───< LIBRO_AUTOR >─── LIBRO
-##d) EMPLEADO — PROYECTO
+```
 
-Cardinalidad: N:M
+### d) EMPLEADO — PROYECTO
+
+**Cardinalidad:** N:M
 
 Un empleado puede participar en varios proyectos y un proyecto puede tener varios empleados.
 
+```text
 EMPLEADO (N) ───────── (M) PROYECTO
+```
 
 Se requiere una tabla intermedia:
 
+```text
 EMPLEADO ───< EMPLEADO_PROYECTO >─── PROYECTO
-##e) ESTUDIANTE — CARRERA
+```
 
-Cardinalidad: N:1
+### e) ESTUDIANTE — CARRERA
+
+**Cardinalidad:** N:1
 
 Varios estudiantes pueden pertenecer a una misma carrera, mientras que cada estudiante pertenece a una carrera.
 
+```text
 CARRERA (1) ───────── (N) ESTUDIANTE
-##f) VUELO — ASIENTO
+```
 
-Cardinalidad: 1:N
+### f) VUELO — ASIENTO
+
+**Cardinalidad:** 1:N
 
 Un vuelo tiene varios asientos y cada asiento pertenece a un vuelo.
 
+```text
 VUELO (1) ───────── (N) ASIENTO
-##g) FACTURA — PRODUCTO
+```
 
-Cardinalidad: N:M
+### g) FACTURA — PRODUCTO
+
+**Cardinalidad:** N:M
 
 Una factura puede contener varios productos y un producto puede aparecer en muchas facturas.
 
+```text
 FACTURA (N) ───────── (M) PRODUCTO
+```
 
 Se resuelve mediante una tabla intermedia:
 
+```text
 FACTURA ───< DETALLE_FACTURA >─── PRODUCTO
-##h) PERSONA — DNI/CI
+```
 
-Cardinalidad: 1:1
+### h) PERSONA — DNI/CI
+
+**Cardinalidad:** 1:1
 
 Una persona posee un DNI/CI y un DNI/CI identifica a una sola persona.
 
+```text
 PERSONA (1) ───────── (1) DNI/CI
-#Ejercicio 4 — Herencia
-##a) Sistema universitario
+```
 
-La clase PERSONA es la superclase y existen tres subclases:
+---
 
+## Ejercicio 4 — Herencia
+
+### a) Sistema universitario
+
+La clase `PERSONA` es la superclase y existen tres subclases:
+
+```text
                          PERSONA
                             △
              ┌──────────────┼──────────────┐
              │              │              │
-             │              │              │
        ESTUDIANTE        DOCENTE     PERSONAL_ADMINISTRATIVO
              │              │              │
-             ├─ carrera    ├─ categoría   ├─ cargo
-             └─ año_ingreso└─ departamento└─ salario
+             ├─ carrera     ├─ categoría   ├─ cargo
+             └─ año_ingreso └─ departamento└─ salario
+```
 
+```text
 ┌──────────────────────────────┐
 │            PERSONA           │
 ├──────────────────────────────┤
@@ -268,10 +337,13 @@ La clase PERSONA es la superclase y existen tres subclases:
 │ + cargo: VARCHAR             │
 │ + salario: DECIMAL(10,2)     │
 └──────────────────────────────┘
-**Opción 1 — Tabla única**
+```
+
+#### Opción 1 — Tabla única
 
 Todas las clases se almacenan en una sola tabla.
 
+```text
 PERSONA
 ├── ci
 ├── nombre
@@ -284,9 +356,9 @@ PERSONA
 ├── departamento
 ├── cargo
 └── salario
+```
 
-Ejemplo:
-
+```sql
 CREATE TABLE PERSONA (
     ci VARCHAR(15) PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -300,18 +372,17 @@ CREATE TABLE PERSONA (
     cargo VARCHAR(100),
     salario DECIMAL(10,2)
 );
-**Ventaja**
+```
 
-Es sencilla de consultar porque toda la información está en una sola tabla.
+**Ventaja:** Es sencilla de consultar porque toda la información está en una sola tabla.
 
-**Desventaja**
+**Desventaja:** Puede generar muchos valores `NULL` y desperdicio de espacio.
 
-Puede generar muchos valores NULL y desperdicio de espacio.
-
-**Opción 2 — Tabla por hoja**
+#### Opción 2 — Tabla por hoja
 
 Se crea una tabla para la clase padre y una tabla para cada subclase.
 
+```text
 PERSONA
 ├── ci
 ├── nombre
@@ -332,9 +403,9 @@ PERSONAL_ADMINISTRATIVO
 ├── ci
 ├── cargo
 └── salario
+```
 
-Ejemplo:
-
+```sql
 CREATE TABLE PERSONA (
     ci VARCHAR(15) PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -362,10 +433,13 @@ CREATE TABLE PERSONAL_ADMINISTRATIVO (
     salario DECIMAL(10,2),
     FOREIGN KEY (ci) REFERENCES PERSONA(ci)
 );
-**Opción 3 — Tabla por clase concreta**
+```
 
-Cada subclase contiene también los atributos heredados de PERSONA.
+#### Opción 3 — Tabla por clase concreta
 
+Cada subclase contiene también los atributos heredados de `PERSONA`.
+
+```text
 ESTUDIANTE
 ├── ci
 ├── nombre
@@ -389,16 +463,19 @@ PERSONAL_ADMINISTRATIVO
 ├── fecha_nac
 ├── cargo
 └── salario
-**¿Cuál opción elegiría?**
+```
 
-Para este sistema elegiría la Opción 2 — Tabla por hoja, porque permite mantener los atributos comunes de PERSONA en una sola tabla y los atributos específicos de cada tipo en sus respectivas tablas.
+#### ¿Cuál opción elegiría?
 
-Además, evita la gran cantidad de valores NULL de la tabla única y evita repetir los atributos generales en cada tabla concreta.
+Para este sistema elegiría la **Opción 2 — Tabla por hoja**, porque permite mantener los atributos comunes de `PERSONA` en una sola tabla y los atributos específicos de cada tipo en sus respectivas tablas.
 
-#b) Sistema bancario
+Además, evita la gran cantidad de valores `NULL` de la tabla única y evita repetir los atributos generales en cada tabla concreta.
 
-La clase CUENTA es la superclase.
+### b) Sistema bancario
 
+La clase `CUENTA` es la superclase.
+
+```text
                          CUENTA
                             △
                  ┌──────────┴──────────┐
@@ -407,7 +484,9 @@ La clase CUENTA es la superclase.
                  │                     │
                  ├─ tasa_interes       ├─ sobregiro_permitido
                  └─ saldo_minimo       └─ cargos_mensuales
-CUENTA
+```
+
+```text
 ┌────────────────────────────────┐
 │             CUENTA             │
 ├────────────────────────────────┤
@@ -415,7 +494,7 @@ CUENTA
 │ + saldo: DECIMAL(12,2)         │
 │ + fecha_apertura: DATE         │
 └────────────────────────────────┘
-CUENTA_AHORRO
+
 ┌────────────────────────────────┐
 │         CUENTA_AHORRO          │
 ├────────────────────────────────┤
@@ -423,7 +502,7 @@ CUENTA_AHORRO
 │ + tasa_interes: DECIMAL(5,2)   │
 │ + saldo_minimo: DECIMAL(12,2)  │
 └────────────────────────────────┘
-CUENTA_CORRIENTE
+
 ┌────────────────────────────────┐
 │       CUENTA_CORRIENTE         │
 ├────────────────────────────────┤
@@ -431,32 +510,41 @@ CUENTA_CORRIENTE
 │ + sobregiro_permitido: DECIMAL │
 │ + cargos_mensuales: DECIMAL    │
 └────────────────────────────────┘
+```
 
-#Ejercicio 5 — Composición vs Agregación
-**Relación	Tipo	Justificación**
-PEDIDO — ÍTEM_PEDIDO	Composición ◆	Un ítem pertenece a un pedido y no tiene sentido sin él.
-EMPRESA — EMPLEADO	Agregación ◇	Un empleado puede existir independientemente de una empresa.
-FACTURA — LÍNEA_FACTURA	Composición ◆	Una línea de factura depende de la factura.
-DEPARTAMENTO — DOCENTE	Agregación ◇	Un docente puede cambiar de departamento o existir fuera de uno específico.
-EDIFICIO — PISO	Composición ◆	Los pisos forman parte del edificio.
-CURSO — ESTUDIANTE	Agregación ◇	Un estudiante existe independientemente del curso.
-EXPEDIENTE_MÉDICO — DIAGNÓSTICO	Composición ◆	El diagnóstico registrado forma parte del expediente médico.
-Representación
-PEDIDO ◆──── ÍTEM_PEDIDO
+---
 
-EMPRESA ◇──── EMPLEADO
+## Ejercicio 5 — Composición vs Agregación
 
-FACTURA ◆──── LÍNEA_FACTURA
+| Relación                          | Tipo          | Justificación                                                     |
+|------------------------------------|---------------|---------------------------------------------------------------------|
+| PEDIDO — ÍTEM_PEDIDO                | Composición ◆ | Un ítem pertenece a un pedido y no tiene sentido sin él.            |
+| EMPRESA — EMPLEADO                  | Agregación ◇  | Un empleado puede existir independientemente de una empresa.       |
+| FACTURA — LÍNEA_FACTURA             | Composición ◆ | Una línea de factura depende de la factura.                        |
+| DEPARTAMENTO — DOCENTE              | Agregación ◇  | Un docente puede cambiar de departamento o existir fuera de uno.   |
+| EDIFICIO — PISO                     | Composición ◆ | Los pisos forman parte del edificio.                               |
+| CURSO — ESTUDIANTE                  | Agregación ◇  | Un estudiante existe independientemente del curso.                 |
+| EXPEDIENTE_MÉDICO — DIAGNÓSTICO     | Composición ◆ | El diagnóstico registrado forma parte del expediente médico.       |
 
-DEPARTAMENTO ◇──── DOCENTE
+**Representación**
 
-EDIFICIO ◆──── PISO
-
-CURSO ◇──── ESTUDIANTE
-
+```text
+PEDIDO            ◆──── ÍTEM_PEDIDO
+EMPRESA           ◇──── EMPLEADO
+FACTURA           ◆──── LÍNEA_FACTURA
+DEPARTAMENTO      ◇──── DOCENTE
+EDIFICIO          ◆──── PISO
+CURSO             ◇──── ESTUDIANTE
 EXPEDIENTE_MÉDICO ◆──── DIAGNÓSTICO
-##Ejercicio 6 — Diagrama completo: Sistema de Veterinaria
-Diagrama general
+```
+
+---
+
+## Ejercicio 6 — Diagrama completo: Sistema de Veterinaria
+
+### Diagrama general
+
+```text
                          MASCOTA
                             △
              ┌──────────────┼──────────────┐
@@ -474,7 +562,11 @@ CONSULTA (1) ◆────── (0..1) RECETA
 RECETA (1) ───────── (N) MEDICAMENTO
 
 MASCOTA (1) ──────── (N) VACUNA
-Clase MASCOTA
+```
+
+### Clases
+
+```text
 ┌──────────────────────────────────┐
 │              MASCOTA             │
 ├──────────────────────────────────┤
@@ -484,7 +576,7 @@ Clase MASCOTA
 │ + sexo: VARCHAR(10)              │
 │ + peso: DECIMAL(6,2)             │
 └──────────────────────────────────┘
-Clase PERRO
+
 ┌──────────────────────────────────┐
 │               PERRO              │
 ├──────────────────────────────────┤
@@ -492,14 +584,14 @@ Clase PERRO
 │ + raza: VARCHAR(50)              │
 │ + tamaño: VARCHAR(30)            │
 └──────────────────────────────────┘
-Clase GATO
+
 ┌──────────────────────────────────┐
 │                GATO              │
 ├──────────────────────────────────┤
 │ + id_mascota: INTEGER <<PK,FK>>  │
 │ + raza: VARCHAR(50)              │
 └──────────────────────────────────┘
-Clase AVE
+
 ┌──────────────────────────────────┐
 │                 AVE              │
 ├──────────────────────────────────┤
@@ -507,7 +599,7 @@ Clase AVE
 │ + especie: VARCHAR(50)           │
 │ + envergadura: DECIMAL(6,2)      │
 └──────────────────────────────────┘
-Clase REPTIL
+
 ┌──────────────────────────────────┐
 │               REPTIL             │
 ├──────────────────────────────────┤
@@ -515,7 +607,7 @@ Clase REPTIL
 │ + especie: VARCHAR(50)           │
 │ + venenoso: INTEGER              │
 └──────────────────────────────────┘
-Clase DUEÑO
+
 ┌──────────────────────────────────┐
 │                DUEÑO             │
 ├──────────────────────────────────┤
@@ -524,7 +616,7 @@ Clase DUEÑO
 │ + telefono: VARCHAR(20)          │
 │ + direccion: VARCHAR(200)        │
 └──────────────────────────────────┘
-Clase VETERINARIO
+
 ┌──────────────────────────────────┐
 │            VETERINARIO           │
 ├──────────────────────────────────┤
@@ -533,7 +625,7 @@ Clase VETERINARIO
 │ + especialidad: VARCHAR(100)     │
 │ + telefono: VARCHAR(20)          │
 └──────────────────────────────────┘
-Clase CONSULTA
+
 ┌──────────────────────────────────┐
 │             CONSULTA             │
 ├──────────────────────────────────┤
@@ -544,7 +636,7 @@ Clase CONSULTA
 │ + id_mascota: INTEGER <<FK>>     │
 │ + id_veterinario: INTEGER <<FK>> │
 └──────────────────────────────────┘
-Clase RECETA
+
 ┌──────────────────────────────────┐
 │              RECETA              │
 ├──────────────────────────────────┤
@@ -553,16 +645,16 @@ Clase RECETA
 │ + indicaciones: VARCHAR(500)     │
 │ + id_consulta: INTEGER <<FK>>    │
 └──────────────────────────────────┘
-Clase MEDICAMENTO
-┌──────────────────────────────────┐
-│           MEDICAMENTO            │
-├──────────────────────────────────┤
-│ + id_medicamento: INTEGER <<PK>>│
-│ + nombre: VARCHAR(100) NOT NULL  │
-│ + presentacion: VARCHAR(100)     │
-│ + dosis: VARCHAR(50)             │
-└──────────────────────────────────┘
-Clase VACUNA
+
+┌───────────────────────────────────┐
+│            MEDICAMENTO            │
+├───────────────────────────────────┤
+│ + id_medicamento: INTEGER <<PK>>  │
+│ + nombre: VARCHAR(100) NOT NULL   │
+│ + presentacion: VARCHAR(100)      │
+│ + dosis: VARCHAR(50)              │
+└───────────────────────────────────┘
+
 ┌──────────────────────────────────┐
 │              VACUNA              │
 ├──────────────────────────────────┤
@@ -572,29 +664,32 @@ Clase VACUNA
 │ + proxima_dosis: DATE            │
 │ + id_mascota: INTEGER <<FK>>     │
 └──────────────────────────────────┘
-**Relaciones principales**
-DUEÑO (N) ◇──────── (M) MASCOTA
+```
 
-MASCOTA (1) ──────── (N) CONSULTA
+### Relaciones principales
 
-VETERINARIO (1) ──── (N) CONSULTA
+```text
+DUEÑO (N)        ◇──────── (M) MASCOTA
+MASCOTA (1)      ──────── (N) CONSULTA
+VETERINARIO (1)  ──────── (N) CONSULTA
+CONSULTA (1)     ◆──────── (0..1) RECETA
+RECETA (N)       ──────── (M) MEDICAMENTO
+MASCOTA (1)      ──────── (N) VACUNA
+```
 
-CONSULTA (1) ◆────── (0..1) RECETA
+- **Composición:** `CONSULTA ◆── RECETA`, porque la receta pertenece a una consulta específica.
+- **Agregación:** `DUEÑO ◇── MASCOTA`, porque el dueño y la mascota pueden existir independientemente.
 
-RECETA (N) ───────── (M) MEDICAMENTO
+---
 
-MASCOTA (1) ──────── (N) VACUNA
+## Ejercicio 7 — Mapeo ORM
 
-**Composición**: CONSULTA ◆── RECETA, porque la receta pertenece a una consulta específica.
+### Diagrama de clases
 
-**Agregación**: DUEÑO ◇── MASCOTA, porque el dueño y la mascota pueden existir independientemente
-##Ejercicio 7 — Mapeo ORM
-Diagrama de clases
+```text
 FACULTAD (1) ──────── (N) CARRERA (1) ──────── (N) MATERIA
                            │
-                           │
                            └──── (N) ESTUDIANTE
-                                      │
                                       │
                                       N
                                       │
@@ -606,21 +701,29 @@ FACULTAD (1) ──────── (N) CARRERA (1) ──────── (
                     │ gestion          │
                     │ nota             │
                     └──────────────────┘
+```
 
-La relación N:M entre ESTUDIANTE y MATERIA se transforma en una tabla intermedia denominada INSCRIPCION.
+La relación N:M entre `ESTUDIANTE` y `MATERIA` se transforma en una tabla intermedia denominada `INSCRIPCION`.
 
-Tabla FACULTAD
+### Tabla FACULTAD
+
+```sql
 CREATE TABLE FACULTAD (
     id_facultad INTEGER PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,
     CHECK (length(nombre) >= 3),
     CHECK (nombre <> '')
 );
-Estructura
-Campo	Tipo	Restricción
-id_facultad	INTEGER	PK
-nombre	VARCHAR(100)	NOT NULL, UNIQUE
-Tabla CARRERA
+```
+
+| Campo         | Tipo         | Restricción     |
+|---------------|--------------|------------------|
+| id_facultad   | INTEGER      | PK               |
+| nombre        | VARCHAR(100) | NOT NULL, UNIQUE |
+
+### Tabla CARRERA
+
+```sql
 CREATE TABLE CARRERA (
     id_carrera INTEGER PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,
@@ -630,13 +733,18 @@ CREATE TABLE CARRERA (
     CHECK (duracion_anios BETWEEN 3 AND 7),
     CHECK (length(nombre) >= 3)
 );
-Estructura
-Campo	Tipo	Restricción
-id_carrera	INTEGER	PK
-nombre	VARCHAR(100)	NOT NULL, UNIQUE
-id_facultad	INTEGER	FK
-duracion_anios	INTEGER	CHECK 3–7
-Tabla ESTUDIANTE
+```
+
+| Campo          | Tipo         | Restricción      |
+|----------------|--------------|-------------------|
+| id_carrera     | INTEGER      | PK                |
+| nombre         | VARCHAR(100) | NOT NULL, UNIQUE  |
+| id_facultad    | INTEGER      | FK                |
+| duracion_anios | INTEGER      | CHECK 3–7         |
+
+### Tabla ESTUDIANTE
+
+```sql
 CREATE TABLE ESTUDIANTE (
     ci VARCHAR(15) PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -647,14 +755,19 @@ CREATE TABLE ESTUDIANTE (
     CHECK (length(nombre) >= 2),
     CHECK (anio_ingreso >= 2000)
 );
-Estructura
-Campo	Tipo	Restricción
-ci	VARCHAR(15)	PK
-nombre	VARCHAR(100)	NOT NULL
-apellido	VARCHAR(100)	NOT NULL
-id_carrera	INTEGER	FK
-anio_ingreso	INTEGER	CHECK
-Tabla MATERIA
+```
+
+| Campo         | Tipo         | Restricción |
+|---------------|--------------|-------------|
+| ci            | VARCHAR(15)  | PK          |
+| nombre        | VARCHAR(100) | NOT NULL    |
+| apellido      | VARCHAR(100) | NOT NULL    |
+| id_carrera    | INTEGER      | FK          |
+| anio_ingreso  | INTEGER      | CHECK       |
+
+### Tabla MATERIA
+
+```sql
 CREATE TABLE MATERIA (
     id_materia INTEGER PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -664,16 +777,20 @@ CREATE TABLE MATERIA (
     CHECK (creditos BETWEEN 1 AND 10),
     CHECK (length(nombre) >= 3)
 );
-Estructura
-Campo	Tipo	Restricción
-id_materia	INTEGER	PK
-nombre	VARCHAR(100)	NOT NULL
-id_carrera	INTEGER	FK
-creditos	INTEGER	CHECK 1–10
-Tabla INSCRIPCION
+```
 
-Esta tabla resuelve la relación N:M entre ESTUDIANTE y MATERIA.
+| Campo       | Tipo         | Restricción  |
+|-------------|--------------|---------------|
+| id_materia  | INTEGER      | PK            |
+| nombre      | VARCHAR(100) | NOT NULL      |
+| id_carrera  | INTEGER      | FK            |
+| creditos    | INTEGER      | CHECK 1–10    |
 
+### Tabla INSCRIPCION
+
+Esta tabla resuelve la relación N:M entre `ESTUDIANTE` y `MATERIA`.
+
+```sql
 CREATE TABLE INSCRIPCION (
     ci_estudiante VARCHAR(15) NOT NULL,
     id_materia INTEGER NOT NULL,
@@ -685,55 +802,69 @@ CREATE TABLE INSCRIPCION (
     CHECK (gestion >= 2000),
     CHECK (nota IS NULL OR nota BETWEEN 0 AND 100)
 );
-Estructura
-Campo	Tipo	Restricción
-ci_estudiante	VARCHAR(15)	PK, FK
-id_materia	INTEGER	PK, FK
-gestion	INTEGER	PK, CHECK
-nota	DECIMAL(5,2)	CHECK 0–100
-Esquema relacional final
+```
+
+| Campo         | Tipo         | Restricción |
+|---------------|--------------|-------------|
+| ci_estudiante | VARCHAR(15)  | PK, FK      |
+| id_materia    | INTEGER      | PK, FK      |
+| gestion       | INTEGER      | PK, CHECK   |
+| nota          | DECIMAL(5,2) | CHECK 0–100 |
+
+### Esquema relacional final
+
+```text
 FACULTAD
 ---------
 id_facultad PK
 nombre
-│
-│ 1:N
-▼
+   │
+   │ 1:N
+   ▼
 CARRERA
 -------
 id_carrera PK
 nombre
 id_facultad FK
 duracion_anios
-│
-├────────────── 1:N ──────────────► MATERIA
-│
-└────────────── 1:N ──────────────► ESTUDIANTE
-                                      │
-                                      │
-                                      │
-                                      ▼
-                                INSCRIPCION
-                                      ▲
-                                      │
-                                      │
-                                   MATERIA
+   │
+   ├────────────── 1:N ──────────────► MATERIA
+   │
+   └────────────── 1:N ──────────────► ESTUDIANTE
+                                          │
+                                          ▼
+                                    INSCRIPCION
+                                          ▲
+                                          │
+                                       MATERIA
+```
 
 La relación entre estudiantes y materias queda:
 
+```text
 ESTUDIANTE (N) ──── (M) MATERIA
           \           /
            \         /
-          INSCRIPCION 
-##Ejercicio 8 — ER → Diagrama de Clases
-Esquema ER original
+          INSCRIPCION
+```
+
+---
+
+## Ejercicio 8 — ER → Diagrama de Clases
+
+### Esquema ER original
+
+```text
 [EMPLEADO] ─── (trabaja_en) ─── [DEPARTAMENTO]
     │                                  │
 (supervisa)                     (ubicado_en)
     │                                  │
 [EMPLEADO]                       [CIUDAD]
-Conversión a UML
-EMPLEADO
+```
+
+### Conversión a UML
+
+```text
 ┌──────────────────────────────────┐
 │             EMPLEADO             │
 ├──────────────────────────────────┤
@@ -744,7 +875,7 @@ EMPLEADO
 │ + id_departamento: INTEGER <<FK>>│
 │ + id_supervisor: INTEGER <<FK>>  │
 └──────────────────────────────────┘
-DEPARTAMENTO
+
 ┌──────────────────────────────────┐
 │           DEPARTAMENTO           │
 ├──────────────────────────────────┤
@@ -752,7 +883,7 @@ DEPARTAMENTO
 │ + nombre: VARCHAR(100) NOT NULL  │
 │ + id_ciudad: INTEGER <<FK>>      │
 └──────────────────────────────────┘
-CIUDAD
+
 ┌──────────────────────────────────┐
 │              CIUDAD              │
 ├──────────────────────────────────┤
@@ -760,42 +891,21 @@ CIUDAD
 │ + nombre: VARCHAR(100) NOT NULL  │
 │ + departamento: VARCHAR(100)     │
 └──────────────────────────────────┘
-Relaciones UML
-                         ┌──────────────┐
-                         │ DEPARTAMENTO │
-                         └──────┬───────┘
-                                │
-                              (N:1)
-                                │
-                                ▼
-                         ┌──────────────┐
-                         │    CIUDAD    │
-                         └──────────────┘
+```
 
+### Relaciones UML
 
-┌──────────────┐
-│   EMPLEADO   │
-└──────┬───────┘
-       │
-       │ N:1
-       ▼
-┌──────────────┐
-│ DEPARTAMENTO │
-└──────────────┘
+```text
+DEPARTAMENTO ── (N:1) ──► CIUDAD
 
+EMPLEADO ── (N:1) ──► DEPARTAMENTO
 
-       ┌──────────────────────────┐
-       │       EMPLEADO           │
-       └───────────┬──────────────┘
-                   │
-                 1:N
-             supervisa
-                   │
-                   ▼
-       ┌──────────────────────────┐
-       │       EMPLEADO           │
-       └──────────────────────────┘
-Modelo completo
+EMPLEADO ── (1:N supervisa) ──► EMPLEADO
+```
+
+### Modelo completo
+
+```text
                      ┌──────────────┐
                      │    CIUDAD    │
                      └──────▲───────┘
@@ -819,15 +929,18 @@ Modelo completo
                      ┌──────────────┐
                      │   EMPLEADO   │
                      └──────────────┘
-##Diferencias entre ER y UML
-| Aspecto            | Modelo ER                          | UML                                                |
-| ------------------ | ---------------------------------- | -------------------------------------------------- |
-| Elemento principal | Entidades                          | Clases                                             |
-| Propiedades        | Atributos                          | Atributos                                          |
-| Relaciones         | Relaciones                         | Asociaciones                                       |
-| Cardinalidad       | 1:1, 1:N, N:M                      | Multiplicidades como 1, 0..1, 1..*, *              |
-| Herencia           | No es el elemento principal        | Se representa directamente mediante generalización |
-| Composición        | No se representa de la misma forma | Se representa con diamante lleno `◆`               |
-| Agregación         | No se representa igual             | Se representa con diamante vacío `◇`               |
-| Métodos            | Generalmente no se incluyen        | Las clases pueden incluir operaciones/métodos      |
-| Identificación     | PK en entidades                    | Se puede indicar mediante `<<PK>>`                 |
+```
+
+### Diferencias entre ER y UML
+
+| Aspecto            | Modelo ER                           | UML                                                 |
+|--------------------|--------------------------------------|------------------------------------------------------|
+| Elemento principal | Entidades                            | Clases                                                |
+| Propiedades        | Atributos                            | Atributos                                             |
+| Relaciones         | Relaciones                           | Asociaciones                                          |
+| Cardinalidad       | 1:1, 1:N, N:M                        | Multiplicidades como 1, 0..1, 1..*, *                 |
+| Herencia           | No es el elemento principal          | Se representa directamente mediante generalización    |
+| Composición        | No se representa de la misma forma   | Se representa con diamante lleno `◆`                  |
+| Agregación         | No se representa igual               | Se representa con diamante vacío `◇`                  |
+| Métodos            | Generalmente no se incluyen          | Las clases pueden incluir operaciones/métodos         |
+| Identificación     | PK en entidades                      | Se puede indicar mediante `<<PK>>`                    |
