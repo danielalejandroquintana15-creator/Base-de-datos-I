@@ -1,3 +1,4 @@
+# Clinica Odontologica "Sonrie Odontologia Integral"
 # Descripción de la problemática o requisitos
 
 La clínica odontológica actualmente requiere mejorar el registro, organización y control de la información relacionada con sus pacientes y las consultas médicas. La información de los pacientes, citas, consultas, diagnósticos y tratamientos puede ser difícil de administrar cuando se maneja de forma manual o mediante registros que no se encuentran centralizados.
