@@ -2,15 +2,23 @@
 
 # 1. Descripción del problema o problemática
 
-La clínica odontológica presenta dificultades en la organización y control de la información relacionada con la programación de citas y la atención de los pacientes. Actualmente, el registro de los datos puede realizarse de manera manual o mediante diferentes medios, lo que dificulta mantener la información centralizada y consultarla de forma rápida.
+La clínica presenta dificultades en la organización y control de las citas y de la información generada durante la atención de los pacientes debido a que actualmente estos procesos se realizan de forma manual. Los datos se encuentran registrados en diferentes medios, como agendas, fichas físicas, anotaciones y teléfonos, lo que dificulta su consulta y seguimiento.
 
-Uno de los principales problemas se encuentra en la gestión de las citas, debido a que es necesario controlar la fecha, hora, paciente, consultorio, motivo y estado de cada cita, además de identificar al usuario encargado de registrarla y al odontólogo responsable de atenderla.
+Esta situación puede ocasionar pérdida de tiempo al buscar información, dificultades para revisar el historial de las atenciones anteriores y complicaciones para llevar un control adecuado de las citas, diagnósticos, tratamientos y pagos.
 
-Asimismo, existe la necesidad de registrar adecuadamente las atenciones realizadas, incluyendo los diagnósticos y tratamientos aplicados. La información de las diferentes consultas debe mantenerse relacionada con el historial clínico de cada paciente para facilitar el seguimiento de sus atenciones anteriores.
+Por ello, se identifica la necesidad de contar con una base de datos que permita centralizar y organizar la información de los pacientes, citas y atenciones odontológicas, facilitando su registro, consulta y seguimiento.
 
-También se requiere organizar la información de los tratamientos y sus costos, así como registrar los pagos realizados por las atenciones y los métodos de pago utilizados. La falta de una estructura centralizada puede ocasionar pérdida o duplicidad de información, dificultades para consultar el historial de los pacientes y problemas en el seguimiento de las citas y atenciones odontológicas.
+# Narración del cliente
 
-Por estas razones, se plantea el diseño de una base de datos que permita gestionar de manera organizada las citas, pacientes, consultorios y usuarios, además de registrar las atenciones odontológicas, diagnósticos, tratamientos e información relacionada con los pagos.
+Actualmente, en la clínica llevamos el control de las citas y la atención de los pacientes de forma manual. Cuando un paciente quiere sacar una cita, anotamos su nombre, la fecha, la hora y el motivo de la consulta en una agenda o en el celular. También tenemos fichas donde vamos registrando la información de las atenciones que se realizan.
+
+Para organizar las citas tenemos que revisar constantemente los horarios disponibles de los doctores y de los consultorios. Cuando un paciente cancela o no se presenta, lo anotamos para tenerlo en cuenta y poder reorganizar la agenda. El problema es que, al manejar la información de esta manera, algunas veces cuesta encontrar rápidamente los datos de un paciente o recordar qué atención recibió anteriormente.
+
+Con los pacientes que ya han venido varias veces también tenemos que buscar sus fichas anteriores para revisar sus diagnósticos, tratamientos y observaciones. Esto puede tomar tiempo, especialmente cuando se necesita consultar información de una atención pasada.
+
+En cuanto a los pagos, normalmente los registramos de forma manual y tratamos de relacionarlos con la atención realizada. Aunque este método nos permite trabajar actualmente, consideramos que podría ser más eficiente si toda la información estuviera organizada en un solo lugar y pudiéramos encontrarla rápidamente.
+
+Lo que más nos gustaría mejorar es la organización de las citas y de la información de los pacientes. También sería útil tener un mejor control de las consultas realizadas, los diagnósticos, tratamientos y pagos, sin tener que revisar diferentes agendas, fichas o anotaciones.
 
 # 2. Preguntas y respuestas de la entrevista
 
