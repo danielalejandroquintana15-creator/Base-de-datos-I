@@ -188,4 +188,4 @@ El **TOTAL de una consulta** se obtiene mediante la suma de los subtotales de lo
 
 Estos valores pueden calcularse mediante consultas SQL y no necesariamente necesitan almacenarse físicamente en la base de datos.
 
-* ![Diagrama Entidad-Relación](../diagrama.drawio.png)
+* ![Diagrama Entidad-Relación](../Diagrama_ER_Clinica_v2.png)
