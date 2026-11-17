@@ -111,13 +111,15 @@ Esperamos poder tener toda la información más organizada en un solo lugar, pod
 
 **USUARIO:** ID_USUARIO, NOMBRE, APELLIDO, NOMBRE_USUARIO, CLAVE, ESTADO_CLAVE
 
-**PACIENTE:** ID_PACIENTE, CI/NIT, NOMBRE, APELLIDO, TELEFONO, EMAIL
+**HORARIO_DOCTOR:** ID_HORARIO, DIA_SEMANA, HORA_INICIO, HORA_FIN
 
-**HISTORIAL_CLINICO:** ID_HISTORIAL, FECHA_APERTURA, OBSERVACIONES
+**PACIENTE:** ID_PACIENTE, CI/NIT, NOMBRE, APELLIDO, FECHA_NACIMIENTO, TELEFONO, EMAIL, DIRECCION
+
+**HISTORIAL_CLINICO:** ID_HISTORIAL, FECHA_APERTURA, ANTECEDENTES, ALERGIAS, MEDICAMENTOS, OBSERVACIONES
 
 **CONSULTORIO:** ID_CONSULTORIO, NOMBRE, DESCRIPCION, ESTADO
 
-**CITA:** ID_CITA, FECHA, HORA, MOTIVO, ESTADO
+**CITA:** ID_CITA, FECHA, HORA, MOTIVO, ESTADO, MOTIVO_CANCELACION
 
 **CONSULTA:** ID_CONSULTA, FECHA, HORA, DIAGNOSTICO_GENERAL
 
@@ -127,18 +129,28 @@ Esperamos poder tener toda la información más organizada en un solo lugar, pod
 
 **TRATAMIENTO:** ID_TRATAMIENTO, NOMBRE, DESCRIPCION, COSTO
 
-**CONSULTA_TRATAMIENTO:**  CANTIDAD, COSTO_UNITARIO, SUBTOTAL, OBSERVACION
+**CONSULTA_TRATAMIENTO:** ID_CONSULTA_TRATAMIENTO, PIEZA_DENTAL, ESTADO, CANTIDAD, COSTO_UNITARIO, SUBTOTAL, OBSERVACIONES
 
 **METODO_PAGO:** ID_METODO_PAGO, NOMBRE, DESCRIPCION, ESTADO
 
-**PAGO:** ID_PAGO, FECHA_PAGO, MONTO, ESTADO, OBSERVACION
+**PAGO:** ID_PAGO, FECHA_PAGO, MONTO, ESTADO, OBSERVACIONES
 
+### Descripción de los atributos nuevos
 
-
+| Entidad | Atributo | Descripción |
+|---|---|---|
+| HORARIO_DOCTOR | DIA_SEMANA, HORA_INICIO, HORA_FIN | Turnos de atención de cada doctor (1 = lunes ... 7 = domingo). Permite conocer su disponibilidad al agendar una cita. |
+| PACIENTE | FECHA_NACIMIENTO, DIRECCION | Datos personales complementarios del paciente. |
+| HISTORIAL_CLINICO | ANTECEDENTES, ALERGIAS, MEDICAMENTOS | Información médica relevante del paciente antes de recibir un tratamiento. |
+| CITA | MOTIVO_CANCELACION | Razón por la que se canceló la cita (solo aplica si el estado es *Cancelada*). |
+| CONSULTA_TRATAMIENTO | PIEZA_DENTAL | Pieza dental tratada, en notación FDI (por ejemplo 16 o 48). Si queda vacía, el tratamiento es general (limpieza, revisión, etc.). |
+| CONSULTA_TRATAMIENTO | ESTADO | Indica si el tratamiento está *Recomendado*, *En curso* o *Realizado*. |
 
 # 4. Uniones o cardinalidades
 
 ROL -> USUARIO (1,N)
+
+USUARIO -> HORARIO_DOCTOR (1,N)
 
 PACIENTE -> HISTORIAL_CLINICO (1,1)
 
@@ -149,6 +161,8 @@ USUARIO -> CITA (1,N) [AGENDA]
 USUARIO -> CITA (1,N) [ATIENDE]
 
 CONSULTORIO -> CITA (1,N)
+
+CITA -> CITA (1,0..1) [REPROGRAMA: una cita nueva puede provenir de una cita cancelada]
 
 CITA -> CONSULTA (1,0..1)
 
@@ -174,18 +188,38 @@ METODO_PAGO -> PAGO (1,N)
 
 La relación entre **CONSULTA y DIAGNOSTICO** es de muchos a muchos y se resuelve mediante **CONSULTA_DIAGNOSTICO**.
 
-La relación entre **CONSULTA y TRATAMIENTO** es de muchos a muchos y se resuelve mediante **CONSULTA_TRATAMIENTO**.
+La relación entre **CONSULTA y TRATAMIENTO** es de muchos a muchos y se resuelve mediante **CONSULTA_TRATAMIENTO**. Esta tabla tiene su propia clave (ID_CONSULTA_TRATAMIENTO) porque un mismo tratamiento puede aplicarse a varias piezas dentales dentro de una misma consulta.
 
 # Atributos calculados
 
 El **SUBTOTAL** de CONSULTA_TRATAMIENTO se obtiene mediante:
 
-**SUBTOTAL = CANTIDAD × COSTO_APLICADO**
+**SUBTOTAL = CANTIDAD × COSTO_UNITARIO**
+
+El **COSTO_UNITARIO** guarda el precio del tratamiento vigente al momento de la atención, de modo que un cambio posterior en el costo no altera las consultas anteriores.
 
 El **TOTAL de una consulta** se obtiene mediante la suma de los subtotales de los tratamientos asociados a dicha consulta:
 
 **TOTAL = SUMA(SUBTOTAL)**
 
+El **MONTO** de PAGO corresponde a lo que efectivamente pagó el paciente, y se registra aparte del total calculado.
+
 Estos valores pueden calcularse mediante consultas SQL y no necesariamente necesitan almacenarse físicamente en la base de datos.
 
-* ![Diagrama Entidad-Relación](../Diagrama_ER_Clinica_v2.png)
+# 5. Reglas de negocio y restricciones
+
+* Un doctor o un consultorio no pueden tener dos citas activas en la misma fecha y hora. Las citas canceladas no bloquean el horario, lo que permite reprogramar.
+* El horario de atención de las citas es de 07:00 a 21:00.
+* Una cita puede generar como máximo una consulta, y una consulta puede existir sin cita previa (urgencias).
+* Una consulta tiene como máximo un pago, y el monto no puede ser negativo.
+* El costo de un tratamiento y el costo unitario deben ser mayores que cero.
+* La cantidad de un tratamiento por consulta debe estar entre 1 y 100.
+* Los estados de citas, consultorios, pagos, métodos de pago, claves y tratamientos de una consulta solo admiten valores predefinidos.
+* El motivo de cancelación solo puede registrarse si la cita está cancelada.
+* El CI/NIT y el nombre de usuario son únicos, y el correo debe tener un formato válido.
+* La clave de usuario se almacena cifrada (hash), nunca en texto plano.
+
+# 6. Diagrama Entidad-Relación
+
+
+ ![Diagrama Entidad-Relación](../Diagrama_ER_Clinica_v2.png)
